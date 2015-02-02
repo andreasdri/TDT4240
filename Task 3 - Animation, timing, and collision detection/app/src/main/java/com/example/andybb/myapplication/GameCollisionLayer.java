@@ -31,7 +31,7 @@ public class GameCollisionLayer extends CollisionLayer  {
     private void createChoppers() {
         // Creates a few choppers and adds them to the layer.
         for (int i = 0 ; i < numOfChoppers; i++){
-            Chopper newChopper = new Chopper(new Image(R.drawable.chopper));
+            Chopper newChopper = new Chopper(ImageConstants.chopperImages);
             newChopper.setPosition(new Vector2(10*i, 20*i)); // They're all in a big little hoop but who cares
             newChopper.setSpeed(new Vector2(40, 40));
             choppers.add(newChopper);

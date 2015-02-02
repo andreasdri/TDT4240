@@ -6,7 +6,7 @@ import sheep.graphics.Image;
 /**
  * Created by andybb on 21.01.15.
  */
-public class Chopper extends Sprite {
+public class Chopper extends AnimatedSprite {
 
     private static final float velocity = 150.0f;
     private boolean moveRight;
@@ -14,12 +14,14 @@ public class Chopper extends Sprite {
     private float height;
     private float width;
 
-    public Chopper(Image image) {
-        super(image);
-        // setPosition(500.0f, 500.0f);
+    public Chopper(Image[] images) {
+        super(images, 1);
+
+        // setPosition(500.0f, 500.0f); // Done somewhere else now
         // setScale(0.5f, 0.5f);
-        height = image.getHeight();
-        width = image.getWidth();
+
+        height = (int) images[0].getHeight();
+        width = (int) images[0].getWidth();
 
         moveLeft = true;
         moveRight = false;
