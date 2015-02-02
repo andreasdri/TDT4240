@@ -14,8 +14,15 @@ import sheep.math.Vector2;
  * Created by esso on 02.02.15.
  */
 public class GameCollisionLayer extends CollisionLayer implements CollisionListener {
-    private Chopper chopper;
-    private Chopper chopper2;
+    public Chopper getChopper1() {
+        return chopper1;
+    }
+
+    public Chopper getChopper2() {
+        return chopper2;
+    }
+
+    private Chopper chopper1, chopper2;
     private static int screenHeight, screenWidth;
 
     public GameCollisionLayer() {
@@ -23,11 +30,11 @@ public class GameCollisionLayer extends CollisionLayer implements CollisionListe
     }
 
     private void addSprites() {
-        chopper = new Chopper(new Image(R.drawable.chopper));
-        chopper.setPosition(new Vector2(100, 100));
-        chopper.setSpeed(new Vector2(40, 40));
-        chopper.addCollisionListener(this);
-        addSprite(chopper);
+        chopper1 = new Chopper(new Image(R.drawable.chopper));
+        chopper1.setPosition(new Vector2(100, 100));
+        chopper1.setSpeed(new Vector2(40, 40));
+        chopper1.addCollisionListener(this);
+        addSprite(chopper1);
 
         chopper2 = new Chopper(new Image(R.drawable.chopper));
         chopper2.setPosition(new Vector2(170, 400));
@@ -36,29 +43,25 @@ public class GameCollisionLayer extends CollisionLayer implements CollisionListe
         addSprite(chopper2);
     }
 
-    public Chopper getChopper() {
-        return chopper;
-    }
 
     private static int getScreenHeight() {
         return screenHeight;
     }
 
-    private static int getScreenWidth() {
-        return screenWidth;
-    }
+    private static int getScreenWidth() { return screenWidth; }
 
 
     @Override
     public void update(float dt) {
-        chopper.update(dt);
+        chopper1.update(dt);
+        chopper2.update(dt);
     }
 
 
-    protected void controlChopper (MotionEvent event) {
-		float x = (event.getX() - chopper.getX());
-        float y = (event.getY() - chopper.getY());
-        chopper.setSpeed(chopper.getSpeed().getX()+x ,chopper.getSpeed().getY()+y);
+    protected void controlChopper1(MotionEvent event) {
+		float x = (event.getX() - chopper1.getX());
+        float y = (event.getY() - chopper1.getY());
+        chopper1.setSpeed(chopper1.getSpeed().getX()+x ,chopper1.getSpeed().getY()+y);
     }
 
 

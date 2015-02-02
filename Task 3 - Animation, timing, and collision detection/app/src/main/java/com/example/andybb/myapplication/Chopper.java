@@ -16,15 +16,13 @@ public class Chopper extends Sprite {
 
     public Chopper(Image image) {
         super(image);
-        setPosition(500.0f, 500.0f);
-        setScale(0.5f, 0.5f);
+        // setPosition(500.0f, 500.0f);
+        // setScale(0.5f, 0.5f);
         height = image.getHeight();
         width = image.getWidth();
 
         moveLeft = true;
         moveRight = false;
-
-
     }
 
     @Override

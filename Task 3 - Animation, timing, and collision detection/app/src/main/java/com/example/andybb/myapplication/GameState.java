@@ -42,7 +42,7 @@ public class GameState extends State  implements TouchListener{
 
     @Override
     public boolean onTouchDown(MotionEvent event) {
-        gameCollisionLayer.controlChopper(event);
+        gameCollisionLayer.controlChopper1(event);
         return false;
     }
 
