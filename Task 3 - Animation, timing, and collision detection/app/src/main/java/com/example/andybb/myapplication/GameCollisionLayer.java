@@ -13,11 +13,11 @@ import sheep.math.Vector2;
 
 /**
  * Created by esso on 02.02.15.
+ * Based on the old GameLayer from task 1 and 2
  */
 public class GameCollisionLayer extends CollisionLayer  {
     private ArrayList<Chopper> choppers;
-    private int numOfChoppers = 4;
-    private static int screenHeight, screenWidth;
+    private int numOfChoppers = 4; // So you can have more than one
 
     public Chopper getPlayerChopper(){
         return  choppers.get(0);
@@ -32,20 +32,12 @@ public class GameCollisionLayer extends CollisionLayer  {
         // Creates a few choppers and adds them to the layer.
         for (int i = 0 ; i < numOfChoppers; i++){
             Chopper newChopper = new Chopper(new Image(R.drawable.chopper));
-            newChopper.setPosition(new Vector2(10*i, 20*i));
+            newChopper.setPosition(new Vector2(10*i, 20*i)); // They're all in a big little hoop but who cares
             newChopper.setSpeed(new Vector2(40, 40));
             choppers.add(newChopper);
             addSprite(newChopper);
         }
     }
-
-
-    private static int getScreenHeight() {
-        return screenHeight;
-    }
-
-    private static int getScreenWidth() { return screenWidth; }
-
 
     @Override
     public void update(float dt) {

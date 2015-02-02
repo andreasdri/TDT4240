@@ -28,6 +28,7 @@ public class Chopper extends Sprite {
     @Override
     public void update(float dt) {
         super.update(dt);
+         // Should check for walls etc
         if (moveLeft) {
             float x = getX();
             float y = getY();
