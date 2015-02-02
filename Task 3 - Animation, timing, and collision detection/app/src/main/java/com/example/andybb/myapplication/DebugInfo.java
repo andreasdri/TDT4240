@@ -37,8 +37,8 @@ public class DebugInfo {
 
     public void draw(Canvas canvas) {
         strings.add("FPS: " + framesLastSecond);
-        strings.add("Cap-X:" + gameCollisionLayer.getChopper1().getX());
-        strings.add("Cap-Y:" + gameCollisionLayer.getChopper1().getY());
+        strings.add("Cap-X:" + gameCollisionLayer.getPlayerChopper().getX());
+        strings.add("Cap-Y:" + gameCollisionLayer.getPlayerChopper().getY());
         Color color = Color.GREEN;
         color.setTextSize(45);
 

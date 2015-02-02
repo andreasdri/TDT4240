@@ -2,45 +2,41 @@ package com.example.andybb.myapplication;
 
 import sheep.collision.CollisionLayer;
 import sheep.collision.CollisionListener;
-import android.graphics.Canvas;
+
 import android.view.MotionEvent;
+
+import java.util.ArrayList;
 
 import sheep.game.Sprite;
 import sheep.graphics.Image;
-import sheep.math.BoundingBox;
 import sheep.math.Vector2;
 
 /**
  * Created by esso on 02.02.15.
  */
-public class GameCollisionLayer extends CollisionLayer implements CollisionListener {
-    public Chopper getChopper1() {
-        return chopper1;
-    }
-
-    public Chopper getChopper2() {
-        return chopper2;
-    }
-
-    private Chopper chopper1, chopper2;
+public class GameCollisionLayer extends CollisionLayer  {
+    private ArrayList<Chopper> choppers;
+    private int numOfChoppers = 4;
     private static int screenHeight, screenWidth;
 
-    public GameCollisionLayer() {
-        addSprites();
+    public Chopper getPlayerChopper(){
+        return  choppers.get(0);
     }
 
-    private void addSprites() {
-        chopper1 = new Chopper(new Image(R.drawable.chopper));
-        chopper1.setPosition(new Vector2(100, 100));
-        chopper1.setSpeed(new Vector2(40, 40));
-        chopper1.addCollisionListener(this);
-        addSprite(chopper1);
+    public GameCollisionLayer() {
+        choppers = new ArrayList<Chopper>();
+        createChoppers();
+    }
 
-        chopper2 = new Chopper(new Image(R.drawable.chopper));
-        chopper2.setPosition(new Vector2(170, 400));
-        chopper2.setSpeed(new Vector2(40, 40));
-        chopper2.addCollisionListener(this);
-        addSprite(chopper2);
+    private void createChoppers() {
+        // Creates a few choppers and adds them to the layer.
+        for (int i = 0 ; i < numOfChoppers; i++){
+            Chopper newChopper = new Chopper(new Image(R.drawable.chopper));
+            newChopper.setPosition(new Vector2(10*i, 20*i));
+            newChopper.setSpeed(new Vector2(40, 40));
+            choppers.add(newChopper);
+            addSprite(newChopper);
+        }
     }
 
 
@@ -53,26 +49,26 @@ public class GameCollisionLayer extends CollisionLayer implements CollisionListe
 
     @Override
     public void update(float dt) {
-        chopper1.update(dt);
-        chopper2.update(dt);
+        for (int i = 0; i < choppers.size(); i++){ // Update all choppers
+            Chopper c1 = choppers.get(i);
+            c1.update(dt);
+            for (int j = 0; j < choppers.size(); j++){ // Check for collisions
+                Chopper c2 = choppers.get(j);
+                if(c1.collides(c2)){ // Switch speed
+                    Vector2 C1Speed = c1.getSpeed();
+                    c1.setSpeed(c2.getSpeed());
+                    c2.setSpeed(C1Speed);
+                }
+            }
+        }
     }
 
 
-    protected void controlChopper1(MotionEvent event) {
+    protected void controlPlayerChopper(MotionEvent event) {
+        Chopper chopper1 = getPlayerChopper();
 		float x = (event.getX() - chopper1.getX());
         float y = (event.getY() - chopper1.getY());
         chopper1.setSpeed(chopper1.getSpeed().getX()+x ,chopper1.getSpeed().getY()+y);
     }
 
-
-    @Override
-    public void collided(Sprite s1, Sprite s2) {
-        // Bounce the sprites on collision
-        Vector2 AccS1Old = s1.getAcceleration();
-        Vector2 AccS2Old = s2.getAcceleration();
-
-        // opposite accelaration
-        s1.setAcceleration(AccS2Old.getX(), AccS2Old.getY());
-        s2.setAcceleration(AccS1Old.getX(), AccS1Old.getY());
-    }
 }
