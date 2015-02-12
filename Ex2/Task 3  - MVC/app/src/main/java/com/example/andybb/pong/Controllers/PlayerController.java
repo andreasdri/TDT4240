@@ -1,12 +1,8 @@
 package com.example.andybb.pong.Controllers;
 
-
-import android.graphics.Canvas;
-
 import com.example.andybb.pong.Models.PlayerModel;
 import com.example.andybb.pong.Views.PlayerView;
-
-import sheep.game.Sprite;
+import android.view.MotionEvent;
 import sheep.graphics.Image;
 
 
@@ -18,35 +14,16 @@ import sheep.graphics.Image;
 public class PlayerController  {
     PlayerModel playerModel;
     PlayerView playerView;
-    private boolean moveUp, moveDown;
 
     public PlayerController(Image img, float x, float y, PlayerModel p) {
         playerModel = p;
         playerView = new PlayerView(img, x, y, this);
     }
 
-    public void moveUp() {
-        moveUp = true;
-        moveDown = false;
-    }
+    public void controlPlayer (MotionEvent event) {
+        float y = (event.getY() - playerView.getY());
+        playerView.setSpeed(0, playerView.getSpeed().getY()+y);
 
-
-    public void moveDown() {
-        moveUp = false;
-        moveDown = true;
-    }
-
-    public void stopMovement(){
-        moveDown = false;
-        moveUp = false;
-    }
-
-    public boolean isMovingUp(){
-        return moveUp;
-    }
-
-    public boolean isMovingDown(){
-        return moveDown;
     }
 
     public PlayerModel getPlayerModel(){

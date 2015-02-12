@@ -1,9 +1,7 @@
 package com.example.andybb.pong.Views;
 
 import android.graphics.Canvas;
-
 import com.example.andybb.pong.Controllers.ScoreController;
-
 import sheep.graphics.Color;
 
 /**
@@ -11,11 +9,15 @@ import sheep.graphics.Color;
  */
 public class ScoreView {
     protected ScoreController scoreController;
+    private static ScoreView instance = new ScoreView(ScoreController.getInstance());
 
-    public ScoreView(ScoreController scoreController){
+    private ScoreView(ScoreController scoreController){
         this.scoreController = scoreController;
     }
 
+    public static ScoreView getInstance() {
+        return instance;
+    }
 
     public void update(float dt) {    }
 

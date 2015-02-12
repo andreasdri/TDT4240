@@ -2,30 +2,32 @@ package com.example.andybb.pong.Views;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import sheep.input.KeyboardListener;
-import android.view.KeyEvent;
-import android.util.Log;
-
+import android.view.MotionEvent;
 import com.example.andybb.pong.Controllers.GameStateController;
-
 import sheep.game.State;
 import sheep.game.World;
+import sheep.input.TouchListener;
 
 /**
  * Created by andybb on 24.01.15.
  */
-public class GameStateView extends State implements KeyboardListener  {
+public class GameStateView extends State implements TouchListener {
     // Controller
     GameStateController gameStateController;
+    private static GameStateView instance = new GameStateView(GameStateController.getInstance());
 
     // Properties
     private World gameWorld;
 
-    public GameStateView(GameStateController gameStateController){
-        this.gameStateController = gameStateController;
+    private GameStateView(GameStateController gameStateController){
+        this.gameStateController = GameStateController.getInstance();
         gameWorld = gameStateController.getGameWorld();
-        this.addKeyboardListener(this);
     }
+
+    public static GameStateView getInstance() {
+        return instance;
+    }
+
     public void draw(Canvas canvas) {
         canvas.drawColor(Color.BLACK);
         gameWorld.draw(canvas);
@@ -36,25 +38,20 @@ public class GameStateView extends State implements KeyboardListener  {
         gameWorld.update(dt);
     }
 
-    public boolean onKeyDown(KeyEvent event) {
-        Log.d("Pong",Integer.toString(event.getKeyCode()));
-        if (event.getKeyCode() == 15) {
-            gameStateController.getGameLayerController().getPlayerController1().moveUp();
-        }
-        if (event.getKeyCode() == 12) {
-            gameStateController.getGameLayerController().getPlayerController1().moveDown();
-        }
-        return true;
+    @Override
+    public boolean onTouchDown(MotionEvent event) {
+        gameStateController.getGameLayerController().getPlayerController1().controlPlayer(event);
+        return false;
     }
 
-    public boolean onKeyUp(KeyEvent event) {
-        if (event.getKeyCode() == 15) {
-            gameStateController.getGameLayerController().getPlayerController1().moveUp();
-        }
-        if (event.getKeyCode() == 12) {
-            gameStateController.getGameLayerController().getPlayerController1().moveDown();
-        }
-        return true;
+    @Override
+    public boolean onTouchUp(MotionEvent event) {
+        return false;
+    }
+
+    @Override
+    public boolean onTouchMove(MotionEvent event) {
+        return false;
     }
 
 }

@@ -34,20 +34,25 @@ public class GameLayerController extends Layer {
     // Controllers
     private ScoreController scoreController;
 
+    // Instance
+    private static GameLayerController instance = new GameLayerController();
+
     // Constructor
-    public GameLayerController() {
+    private GameLayerController() {
         this.offsetX = (1080 - this.width) / 2;
         this.offsetY = (1920 - this.height) / 2;
         levelView = new LevelView(this.width, this.height, this.offsetX, this.offsetY);
-        ballView = new BallView(new Image(R.drawable.ball));
-
-        scoreController = new ScoreController(); // Creates scoreboard and Playermodels
-        scoreView = new ScoreView(scoreController);
-
+        ballView = BallView.getInstance();
+        scoreController = ScoreController.getInstance(); // Creates scoreboard and Playermodels
+        scoreView = ScoreView.getInstance();
         // Lets create playercontrolers and views
         playerController1 = new PlayerController(new Image(R.drawable.paddle), 200f, 960f, scoreController.getPlayer1());
         playerController2 = new PlayerController(new Image(R.drawable.paddle), 900f, 960f, scoreController.getPlayer2());
 
+    }
+
+    public static GameLayerController getInstance() {
+        return instance;
     }
 
 
@@ -73,12 +78,16 @@ public class GameLayerController extends Layer {
 
     @Override
     public void update(float dt) {
+
+        // Logic for the ball interactions with the environment
         if(ballView.getX() > width + offsetX) {
             scoreController.givePoint("Player 1");
             if(scoreController.isGameOver()) {
                 scoreController.reset();
             }
             ballView.reset();
+            playerController2.getPlayerView().reset();
+
         }
 
         else if(ballView.getX() < offsetX) {
@@ -87,6 +96,7 @@ public class GameLayerController extends Layer {
                 scoreController.reset();
             }
             ballView.reset();
+            playerController2.getPlayerView().reset();
         }
         else if(ballView.collides(playerController1.getPlayerView())) {
             ballView.setSpeed(-ballView.getSpeed().getX(), ballView.getSpeed().getY());
@@ -96,7 +106,7 @@ public class GameLayerController extends Layer {
             ballView.setSpeed(-ballView.getSpeed().getX(), ballView.getSpeed().getY());
 
         }
-        else if(ballView.getY() < offsetY) {
+        else if(ballView.getY() < offsetY + 20) {
             ballView.setSpeed(ballView.getSpeed().getX(), -ballView.getSpeed().getY());
 
         }
@@ -105,7 +115,17 @@ public class GameLayerController extends Layer {
 
         }
 
+        // Logic for the player 2 controlled by the computer
+        if(ballView.getY() < playerController2.getPlayerView().getY() - 20 && playerController2.getPlayerView().getY() > 700) {
+            playerController2.getPlayerView().setYSpeed(-80);
 
+        }
+        else if(ballView.getY() > playerController2.getPlayerView().getY() + 20 && playerController2.getPlayerView().getY() < 1250) {
+            playerController2.getPlayerView().setYSpeed(80);
+        }
+        else {
+            playerController2.getPlayerView().setYSpeed(0);
+        }
 
         playerController1.getPlayerView().update(dt);
         playerController2.getPlayerView().update(dt);

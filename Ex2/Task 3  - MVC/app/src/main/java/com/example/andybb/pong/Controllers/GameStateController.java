@@ -10,12 +10,17 @@ public class GameStateController {
 
     private World gameWorld;
     private GameLayerController gameLayerController;
+    private static GameStateController instance = new GameStateController();
 
-    public GameStateController() {
+    private GameStateController() {
         gameWorld = new World();
-        gameLayerController = new GameLayerController();
+        gameLayerController = GameLayerController.getInstance();
         gameWorld.addLayer(gameLayerController);
 
+    }
+
+    public static GameStateController getInstance() {
+        return instance;
     }
 
 

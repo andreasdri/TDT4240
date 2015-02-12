@@ -9,12 +9,16 @@ import com.example.andybb.pong.Models.PlayerModel;
 public class ScoreController {
 
     private PlayerModel p1, p2;
+    private static ScoreController instance = new ScoreController();
 
-    public ScoreController() {
+    private ScoreController() {
         p1 = new PlayerModel("Player 1");
         p2 = new PlayerModel("Player 2");
     }
 
+    public static ScoreController getInstance() {
+        return instance;
+    }
 
     public void reset() {
         p1.resetScore();

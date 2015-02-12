@@ -15,7 +15,6 @@ public class LevelView extends Sprite {
     private Rect bottom;
     private Rect middle;
 
-
     public LevelView(int width, int height, int offsetX, int offsetY) {
         top = new Rect(offsetX, offsetY, offsetX + width, offsetY + 35);
         bottom = new Rect(offsetX, offsetY + height, offsetX + width, offsetY + height + 35);

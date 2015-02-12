@@ -1,8 +1,6 @@
 package com.example.andybb.pong.Views;
 
 import com.example.andybb.pong.Controllers.PlayerController;
-import com.example.andybb.pong.Models.PlayerModel;
-
 import sheep.game.Sprite;
 import sheep.graphics.Image;
 
@@ -22,20 +20,20 @@ public class PlayerView extends Sprite {
 
     }
 
+    public void reset() {
+        setPosition(900f, 960f);
+    }
+
+
     @Override
     public void update(float dt) { // Update a sprite at an instance
         super.update(dt);
-        if(playerController.isMovingUp()) {
-            if(getY() > 700) {
-                setPosition(getX(),  getY()-15);
-            }
-
+        if(getY() < 700) {
+            setYSpeed(0);
         }
-        if (playerController.isMovingDown()){ // down
-            if(getY() < 1250) {
-                setPosition(getX(), getY() + 15);
+        if(getY() > 1250) {
+            setYSpeed(0);
 
-            }
         }
 
     }

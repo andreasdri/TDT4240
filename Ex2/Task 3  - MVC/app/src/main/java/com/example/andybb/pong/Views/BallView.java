@@ -1,11 +1,7 @@
 package com.example.andybb.pong.Views;
 
-
-
 import sheep.game.Sprite;
-import sheep.graphics.Color;
-import android.graphics.Canvas;
-import android.graphics.Rect;
+import com.example.andybb.pong.R;
 import sheep.graphics.Image;
 
 /**
@@ -13,14 +9,18 @@ import sheep.graphics.Image;
  */
 public class BallView extends Sprite {
 
-    public BallView(Image img) {
+    private static BallView instance = new BallView(new Image(R.drawable.ball));
+
+    private BallView(Image img) {
         super(img);
         setScale(0.2f, 0.2f);
         setPosition(540.0f, 960.0f);
         reset();
 
+    }
 
-
+    public static BallView getInstance() {
+        return instance;
     }
 
     public void reset() {
@@ -35,8 +35,6 @@ public class BallView extends Sprite {
             setYSpeed((float)random * 125f);
         }
     }
-
-
 
     @Override
     public void update(float dt) {
