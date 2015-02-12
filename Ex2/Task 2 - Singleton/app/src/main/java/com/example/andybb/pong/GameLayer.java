@@ -11,6 +11,7 @@ import sheep.math.BoundingBox;
  */
 
 public class GameLayer extends Layer {
+
     private Ball ball;
     private Player player1;
     private Player player2;
@@ -20,24 +21,28 @@ public class GameLayer extends Layer {
     private int width = 700;
     private int offsetX;
     private int offsetY;
+    private static GameLayer instance = new GameLayer();
 
 
-    public GameLayer() {
+    private GameLayer() {
         this.offsetX = (1080 - this.width) / 2;
         this.offsetY = (1920 - this.height) / 2;
         level = new Level(this.width, this.height, this.offsetX, this.offsetY);
-        ball = new Ball(new Image(R.drawable.ball));
+        // Singleton pattern
+        scoreboard = Scoreboard.getInstance();
+        ball = Ball.getInstance();
         player1 = new Player(new Image(R.drawable.paddle), 200f, 960f);
         player2 = new Player(new Image(R.drawable.paddle), 900f, 960f);
-        scoreboard = new Scoreboard();
 
+    }
+
+    public static GameLayer getInstance() {
+        return instance;
     }
 
     public Player getPlayer1() {
         return player1;
     }
-
-
 
     @Override
     public void draw(Canvas canvas, BoundingBox box) {
@@ -49,16 +54,17 @@ public class GameLayer extends Layer {
 
     }
 
-
     @Override
     public void update(float dt) {
 
+        // Logic for the ball interactions with the environment
         if(ball.getX() > width + offsetX) {
             scoreboard.givePoint("player1");
             if(scoreboard.gameOver()) {
                 scoreboard.reset();
             }
             ball.reset();
+            player2.reset();
         }
 
         else if(ball.getX() < offsetX) {
@@ -67,6 +73,7 @@ public class GameLayer extends Layer {
                 scoreboard.reset();
             }
             ball.reset();
+            player2.reset();
         }
         else if(ball.collides(player1)) {
             ball.setSpeed(-ball.getSpeed().getX(), ball.getSpeed().getY());
@@ -76,7 +83,7 @@ public class GameLayer extends Layer {
             ball.setSpeed(-ball.getSpeed().getX(), ball.getSpeed().getY());
 
         }
-        else if(ball.getY() < offsetY) {
+        else if(ball.getY() < offsetY + 20) {
             ball.setSpeed(ball.getSpeed().getX(), -ball.getSpeed().getY());
 
         }
@@ -85,15 +92,17 @@ public class GameLayer extends Layer {
 
         }
 
+        // Logic for the player 2 controlled by the computer
+        if(ball.getY() < player2.getY() - 20) {
+            player2.setYSpeed(-80);
 
-//        if(player1.getY() < offsetY + 30) {
-//            player1.setPosition(player1.getX(), offsetY+31);
-//        }
-//
-//        if(player1.getY() > offsetY + height - 30) {
-//            player1.setPosition(player1.getX(), offsetY + height - 31);
-//        }
-
+        }
+        else if(ball.getY() > player2.getY() + 20) {
+            player2.setYSpeed(80);
+        }
+        else {
+            player2.setYSpeed(0);
+        }
 
         player1.update(dt);
         player2.update(dt);

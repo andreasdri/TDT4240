@@ -5,22 +5,28 @@ import android.graphics.Color;
 import sheep.input.KeyboardListener;
 import android.view.KeyEvent;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import sheep.game.State;
 import sheep.game.World;
+import sheep.input.TouchListener;
 
 /**
  * Created by andybb on 24.01.15.
  */
-public class GameState extends State implements KeyboardListener  {
+public class GameState extends State implements TouchListener {
     private World gameWorld;
     private GameLayer gameLayer;
+    private static GameState instance = new GameState();
 
-    public GameState() {
+    private GameState() {
         gameWorld = new World();
-        gameLayer = new GameLayer();
+        gameLayer = GameLayer.getInstance();
         gameWorld.addLayer(gameLayer);
-        this.addKeyboardListener(this);
+    }
+
+    public static GameState getInstance() {
+        return instance;
     }
 
     @Override
@@ -31,29 +37,22 @@ public class GameState extends State implements KeyboardListener  {
 
     @Override
     public void update(float dt) {
-
         gameWorld.update(dt);
     }
 
-    public boolean onKeyDown(KeyEvent event) {
-        Log.d("MyApp",Integer.toString(event.getKeyCode()));
-        if (event.getKeyCode() == 15) {
-            gameLayer.getPlayer1().moveUp();
-        }
-        if (event.getKeyCode() == 12) {
-            gameLayer.getPlayer1().moveDown();
-        }
-        return true;
+    @Override
+    public boolean onTouchDown(MotionEvent event) {
+        gameLayer.getPlayer1().controlPlayer(event);
+        return false;
     }
 
-    public boolean onKeyUp(KeyEvent event) {
-        if (event.getKeyCode() == 15) {
-            gameLayer.getPlayer1().stopUp();
-        }
-        if (event.getKeyCode() == 12) {
-            gameLayer.getPlayer1().stopDown();
-        }
-        return true;
+    @Override
+    public boolean onTouchUp(MotionEvent event) {
+        return false;
     }
 
+    @Override
+    public boolean onTouchMove(MotionEvent event) {
+        return false;
+    }
 }

@@ -13,14 +13,17 @@ import sheep.graphics.Image;
  */
 public class Ball extends Sprite {
 
-    public Ball(Image img) {
+    private static Ball instance = new Ball(new Image(R.drawable.ball));
+
+    private Ball(Image img) {
         super(img);
         setScale(0.2f, 0.2f);
         setPosition(540.0f, 960.0f);
         reset();
+    }
 
-
-
+    public static Ball getInstance() {
+        return instance;
     }
 
     public void reset() {
@@ -36,16 +39,11 @@ public class Ball extends Sprite {
         }
     }
 
-
-
     @Override
     public void update(float dt) {
         super.update(dt);
 
 
     }
-
-
-
 
 }
