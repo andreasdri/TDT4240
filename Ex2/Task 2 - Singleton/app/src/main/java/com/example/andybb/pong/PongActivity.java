@@ -11,7 +11,7 @@ public class PongActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Game game = new Game(this, null);
-        game.pushState(new GameState());
+        game.pushState(GameState.getInstance());
         setContentView(game);
     }
 

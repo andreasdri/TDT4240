@@ -11,10 +11,10 @@ import sheep.graphics.Color;
  * Created by andybb on 24.01.15.
  */
 public class Level extends Sprite {
+
     private Rect top;
     private Rect bottom;
     private Rect middle;
-
 
     public Level(int width, int height, int offsetX, int offsetY) {
         top = new Rect(offsetX, offsetY, offsetX + width, offsetY + 35);

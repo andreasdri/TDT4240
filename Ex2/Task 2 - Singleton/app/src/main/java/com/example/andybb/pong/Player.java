@@ -10,6 +10,7 @@ import android.graphics.drawable.ShapeDrawable;
 import 	android.graphics.drawable.Drawable;
 import android.graphics.drawable.shapes.Shape;
 import android.graphics.drawable.shapes.RectShape;
+import android.view.MotionEvent;
 
 
 /**
@@ -19,6 +20,7 @@ public class Player extends Sprite {
 
     private boolean up;
     private boolean down;
+    private boolean isMoving;
 
     public Player(Image img, float x, float y) {
         super(img);
@@ -29,40 +31,31 @@ public class Player extends Sprite {
 
     }
 
+    public void controlPlayer (MotionEvent event) {
+        float y = (event.getY() - getY());
+        setSpeed(0, getSpeed().getY()+y);
+
+    }
+
     @Override
     public void update(float dt) {
         super.update(dt);
-        if(up) {
-            if(getY() > 700) {
-                setPosition(getX(), getY()-20);
-            }
+        if(getY() < 700) {
+            setSpeed(0, 0);
+        }
+        if(getY() > 1250) {
+            setSpeed(0, 0);
 
         }
-        if (down){
-            if(getY() < 1250) {
-                setPosition(getX(), getY() + 20);
-
-            }
-        }
-
     }
 
-    public void moveUp() {
-        up = true;
+    public void reset() {
+        setPosition(900f, 960f);
     }
 
-
-    public void moveDown() {
-        down = true;
+    public void isMoving(boolean b) {
+        this.isMoving = b;
     }
 
-    public void stopUp() {
-        up = false;
-    }
-
-
-    public void stopDown() {
-        down = false;
-    }
 
 }

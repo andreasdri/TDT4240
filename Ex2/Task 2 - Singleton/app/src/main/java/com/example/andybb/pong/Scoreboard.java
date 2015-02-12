@@ -11,14 +11,20 @@ import sheep.graphics.Color;
  */
 public class Scoreboard {
 
+
+    private static Scoreboard instance = new Scoreboard();
     private int score1;
     private int score2;
     private boolean gameOver;
 
 
-    public Scoreboard () {
+    private Scoreboard () {
         this.score1 = 0;
         this.score2 = 0;
+    }
+
+    public static Scoreboard getInstance() {
+        return instance;
     }
 
 
@@ -58,7 +64,6 @@ public class Scoreboard {
 
     }
 
-
     public void draw(Canvas canvas) {
 
         Color color = Color.WHITE;
@@ -69,10 +74,6 @@ public class Scoreboard {
         if(this.gameOver) {
             canvas.drawText("Game over.", 500, 900, color);
         }
-
-
-
-
 
     }
 }
