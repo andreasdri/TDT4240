@@ -1,4 +1,4 @@
-package com.example.andybb.pong;
+package com.example.andybb.pong.Views;
 
 
 
@@ -11,9 +11,9 @@ import sheep.graphics.Image;
 /**
  * Created by andybb on 24.01.15.
  */
-public class Ball extends Sprite {
+public class BallView extends Sprite {
 
-    public Ball(Image img) {
+    public BallView(Image img) {
         super(img);
         setScale(0.2f, 0.2f);
         setPosition(540.0f, 960.0f);
