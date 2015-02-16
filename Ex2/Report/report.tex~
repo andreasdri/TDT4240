@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\renewcommand{\theenumi}{\Alph{enumi}}
+
+\title{TDT4240 \\ 
+Exercise 2}
+\author{Stein-Otto Svorstøl \\  and Andreas Drivenes}
+\date{Spring 2015}
+
+\begin{document}
+
+\maketitle
+
+\section*{Programming exercises}
+Handed in seperately. In task 2 we implemented the Pong-game with the singleton pattern, and in task 3 we implemented it with MVC. It's all one project, and one set of files as MVC and sngleton can easily be combined.
+
+\section*{Task 3: Theory}
+\begin{enumerate}[a) ]
+\item  \begin{enumerate}[1) ]
+\item Observer: Design pattern
+\item State: Design pattern
+\item Template method: Design pattern
+\item Model View Controller: Architectural design patter
+\item Abstract factory:  Design pattern
+\item Pipe-and-filter (pipeline): Can both be used as a architectural pattern, and a design pattern.
+\end{enumerate}
+
+\item \begin{enumerate}[1) ]
+        \item The Singleton pattern restricts the creation of an object to a single instance across all computations. In our implementation of the Singleton pattern in the game Pong, the objects ScoreView, GameStateView, BallView, ScoreController, GameStateController and GameLayerController are singletons. We instantiate a private static variable in each of these classes and use a private constructor to restrict object creation. To get the running instance of an object, we can simply call BallView.getInstance(), or ScoreController.getInstance(). The advantage of this approach, is that we have control over the object creation, and we are absolutely sure that we only have one running instance.
+        \item The Model-View-Controler architectural pattern defines how files should be places
+    \end{enumerate}
+
+\item The MVC-pattern has the major advantage of helping us to give different tasks to different people, as all code has a logical place to be, without us really having to define any real structure. This also helps making the code base more maintainable as it's easier ot find bugs or improve features for othher developers (they know where things 'should' be), more extendable (it's easy to give a controller a extra view for instance) and modular (logical places to put code that communicates with other systems for instance). We implemented it in the following way:
+    \begin{enumerate}
+        \item Models: We only made one model, as there is only one distinct object that has properites that may be modified by different controllers, and that is the player. The PlayerModel has properties for name and score. If the system was to work over the Intenret, then one may also add the coordinates in the server models.
+        \item Views: We moved all the sprites out to be views. They now do not have their own data, but gets data/are being controlled by the controllers.
+        \item Controllers: We made the State- and Layer-classes to be controllers, and gave them more power over the views. We also added PlayerController which controls one player, and has the movement logic etc. (Model only has data, while view only shows the player on the screen.) The ScoreController is just a controller for just that, the score. IT does about the same thing as the "Scoreboard"-class we used before.
+    \end{enumerate}
+
+\end{enumerate}
+
+\end{document}
+
